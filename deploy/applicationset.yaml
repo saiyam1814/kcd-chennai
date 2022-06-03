@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: argodemo
+  namespace: argocd
+spec:
+  generators:
+  - clusters: {}
+  template:
+    metadata:
+      name: '{{name}}-argodemo'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/saiyam1814/argo-demo.git
+        targetRevision: HEAD
+        path: deploy
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+      destination:
+        server: '{{server}}'
+        namespace: default
